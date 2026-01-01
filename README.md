@@ -82,8 +82,8 @@ HSMS,2,920.5,18.2
 
 **A.** The tool visualizes two primary metrics:
 
-    -**Makespan**: The total execution time for task completion (lower is better)
-    -**Security Utility**: A measure of security performance for the scheduler (higher is better)
+    - Makespan: The total execution time for task completion (lower is better)
+    - Security Utility: A measure of security performance for the scheduler (higher is better)
 
 Rankings are determined first by utility (**higher is better**), and then by makespan (**lower is better**) as a tiebreaker.
 

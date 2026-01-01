@@ -1,4 +1,4 @@
-# File Transfer PWA
+# Scheduler Performance Visualizer
 
 A React-based visualization tool for analyzing and comparing scheduler performance across multiple trial runs. This application helps researchers and developers visualize makespan, security utility metrics, and performance trends for various scheduling algorithms.
 

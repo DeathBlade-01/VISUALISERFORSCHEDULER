@@ -1,70 +1,139 @@
-# Getting Started with Create React App
+# File Transfer PWA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based visualization tool for analyzing and comparing scheduler performance across multiple trial runs. This application helps researchers and developers visualize makespan, security utility metrics, and performance trends for various scheduling algorithms.
 
-## Available Scripts
+## Who is this for?
+- **Researchers** working on scheduling algorithms and optimization
+- **Data Scientists** analyzing scheduler performance metrics
+- **System Architects** comparing different scheduling strategies
+- **Students** studying parallel computing and task scheduling
+## Installation
 
-In the project directory, you can run:
+    
+### Install and Run with npm
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### 1. Download/clone the project:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    git clonehttps://github.com/DeathBlade-01/VISUALISERFORSCHEDULER
+    cd VISUALISERFORSCHEDULER
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### 2. Install npm:
 
-### `npm run build`
+    npm install 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 3. Start the server:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    npm run dev
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+The application will open in your browser at **http://localhost:5173** (or the next available port).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### The CSV File Format
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The application prompts user to input CSV files having the following format:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+TRIAL RUN 1 - DEADLINE == 984.0624460973564 SECURITY UTILITY == 16.5132
+SCHEDULER,TRIAL_RUN,MAKESPAN,UTILITY
+HSMS,1,894.6022237248694,16.5132
+SimpleQLearningScheduler,1,892.7340675140497,9.828999999999999
+EnhancedQLearningScheduler,1,845.209387131297,9.828999999999999
+HSMS+ANYSHIELD,1,983.9787218311548,33.5116
+HSMS+PSOShield,1,983.8664990275564,28.48480000000001
 
-## Learn More
+TRIAL RUN 2 - DEADLINE == 1050.5 SECURITY UTILITY == 0.0
+SCHEDULER,TRIAL_RUN,MAKESPAN,UTILITY
+HSMS,2,920.5,18.2
+...
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Format Requirements
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Each trial starts with: TRIAL RUN [number] - DEADLINE == [value] SECURITY UTILITY == [value]
 
-### Code Splitting
+- Followed by a header row: SCHEDULER,TRIAL_RUN,MAKESPAN,UTILITY
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Data rows contain: scheduler name, trial number, makespan value, utility value
 
-### Analyzing the Bundle Size
+- Multiple trials can be included in a single file    
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## How To Use
 
-### Making a Progressive Web App
+- **Upload Data**: Click the "Upload CSV" button and select your trial data file
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **Configure Settings**:
 
-### Advanced Configuration
+    - Use the Settings panel to select which schedulers to compare
+    - Customize colors for each scheduler by clicking the color picker
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+- **Navigate Trials**: Use the trial selector to view different trial runs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- **Analyze Trends**: Scroll down to see performance trends across all trials
 
-### `npm run build` fails to minify
+- **Export Results**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    - Click "Export as Images" to save all visualizations as PNG files
+    - Click "Export Text Report" to generate a formatted text summary
+## FAQ
+
+#### Q. What metrics does this tool visualize?
+
+**A.** The tool visualizes two primary metrics:
+
+    -**Makespan**: The total execution time for task completion (lower is better)
+    -**Security Utility**: A measure of security performance for the scheduler (higher is better)
+
+Rankings are determined first by utility (**higher is better**), and then by makespan (**lower is better**) as a tiebreaker.
+
+#### Q. Can I compare schedulers across multiple trials?
+
+**A.** Yes! The application automatically aggregates data from all trials in your CSV file. The trend charts at the bottom show how each scheduler performs across all trial runs, making it easy to identify consistent performers and outliers.
+
+
+#### Q. How are my settings saved?
+
+**A.** Your scheduler selections and custom colors are automatically saved to **browser storage**. That is, the settings are persistent as long as the session information is not cleared. 
+
+#### Q. What file formats are supported?
+
+**A.** The application currently supports CSV and TXT files containing trial run data in the specified format. The parser is flexible with spacing but requires the exact header format for each trial run.
+
+#### Q. Why are some schedulers missing from my visualization?
+
+**A.** Make sure the scheduler is selected in the Settings panel. By default, all schedulers are selected when you upload a file, but you may have deselected some for focused comparison. Click "Show Settings" and check the scheduler checkboxes.
+
+#### Q. Can I export my visualizations for presentations?
+
+**A.** Yes! Use the "Export as Images" button to download PNG images of all trial comparisons and trend charts. These high-quality images (2x resolution) are perfect for presentations, papers, or reports.
+## Demo
+TODO: ADD LATER
+
+## Features
+
+- **Interactive Data Upload** - Import CSV files containing trial run data
+- **Multi-Trial Analysis** - Compare scheduler performance across multiple trial runs
+- **Customizable Visualization** - Select specific schedulers to compare and customize their colors
+- **Performance Metrics** - Visualize both makespan (execution time) and security utility
+- **Trend Analysis** - Track scheduler performance trends across all trials
+- **Export Capabilities** - Export visualizations as images
+- **Persistent Settings** - scheduler selections and color preferences are saved automatically
+
+
+
+
+
+## Future Vision
+
+This project is primarily maintained for the research work that I am currently doing along with my usual academics. 
+
+The main objective was to have a much more flexible and more intuitive tool to dynamically show the performance of differnet algorithms to analyse various trends and outliers. 
+
+My future goals with this project is as follows: 
+
+        1. Add another graph generator comparing execution times of the schedulers.
+
+        2. Display the exec. times and variations across a large data set (ex: performance across multiple similar structured DAGs, and show the average, min and max values)
+
+        3. Offer different forms of visualisations
